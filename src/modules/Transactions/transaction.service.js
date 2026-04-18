@@ -43,7 +43,6 @@ const createTransactionFunc = async ({account,amount,type,balance_before,balance
 
 
 export const getUsertransactions = async (req,res)=>{
-    const {id} = req.user
     const {page,limit} = req.query
     const usertransaction = await dbService.find({
         model:transactionModel,
