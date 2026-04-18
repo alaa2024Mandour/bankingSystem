@@ -1,0 +1,71 @@
+import joi from "joi"
+import { general_rules } from "../../common/utils/general.rules.js"
+
+/*
+If you need to receive data from query, body, headers, params, etc.,
+you can build an object and inject into it keys like "body", "query", etc.,
+depending on the source you want to receive the data from.
+
+After that, go to the middleware and loop over this object
+to validate the data from each key using the schema assigned to it.
+*/
+export const signUp_schema = {
+    body:joi.object({
+        fullName:general_rules.fullName,
+        email:general_rules.email,
+        password:general_rules.password,
+        cPassword:general_rules.cPassword,
+    }).options({presence:"required"}).messages({
+        "any.required":"body  is required"
+    }),
+}
+
+export const signIn_schema = {
+    body:joi.object({
+        email:general_rules.email.required(),
+        password:general_rules.password.required(),
+    })
+}
+
+export const shareProfile_schema = {
+    params:joi.object({
+        id:general_rules.id.required(),
+    })
+}
+
+// export const updateProfile_schema = {
+//     params:joi.object({
+//         phone:general_rules.phone,
+//         gender:general_rules.gender
+//     })
+// }
+
+
+
+export const confirmEmial_schema = {
+    body:joi.object({
+        email:general_rules.email.required(),
+        code:joi.string().regex(/^\d{6}$/).required()
+    }).required()
+}
+
+export const resendEmial_schema = {
+    body:joi.object({
+        email:general_rules.email.required(),
+    }).required()
+}
+
+export const forgotPassword_schema = {
+    body:joi.object({
+        email:general_rules.email.required(),
+    }).required()
+}
+
+export const resetPassword_schema = {
+    body:joi.object({
+        email:general_rules.email.required(),
+        code:joi.string().regex(/^\d{6}$/).required(),
+        password:general_rules.password.required(),
+    }).required()
+}
+
